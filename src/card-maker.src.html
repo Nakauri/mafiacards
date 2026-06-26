@@ -573,6 +573,29 @@ function syncWincons(){
   $('#vGoldWrap').classList.toggle('hide',!g);$('#vSilverWrap').classList.toggle('hide',!s);
   $('#vWincons').classList.toggle('hide',!g&&!s);
 }
+/* shrink a heading so its widest word fits the available width (long names like SHAFFELBURG) */
+function fitWrap(el,avail,minPx){
+  if(!el||!avail||avail<10)return;
+  el.style.fontSize='';
+  let s=parseFloat(getComputedStyle(el).fontSize)||24;
+  const cs=getComputedStyle(el);
+  const probe=document.createElement('span');
+  probe.style.cssText='position:absolute;left:-9999px;top:0;visibility:hidden;white-space:nowrap;font-family:'+cs.fontFamily+';font-weight:'+cs.fontWeight+';font-style:'+cs.fontStyle+';letter-spacing:'+cs.letterSpacing+';text-transform:'+cs.textTransform;
+  document.body.appendChild(probe);
+  const words=(el.textContent||'').trim().split(/\s+/).filter(Boolean);
+  const widest=size=>{probe.style.fontSize=size+'px';let w=0;for(const word of words){probe.textContent=word;if(probe.offsetWidth>w)w=probe.offsetWidth;}return w;};
+  let guard=0;
+  while(s>minPx&&widest(s)>avail&&guard++<90)s-=1;
+  el.style.fontSize=s+'px';
+  probe.remove();
+}
+function fitNames(){
+  const pn=$('#vPname');
+  if(pn&&pn.parentElement)fitWrap(pn,pn.parentElement.clientWidth,18);
+  const dp=document.querySelector('#card .dpanel');
+  if(dp){const c=getComputedStyle(dp);const w=dp.clientWidth-parseFloat(c.paddingLeft)-parseFloat(c.paddingRight)-2;
+    fitWrap($('#vRole'),w,20);fitWrap($('#vDname'),w,30);}
+}
 function sync(){
   const ch=$('#char').value,pl=$('#player').value,ro=$('#role').value,po=$('#position').value;
   $('#vPname').textContent=ch||' ';
@@ -582,7 +605,7 @@ function sync(){
   $('#vBy').textContent=pl?pl.toUpperCase():'';
   $('#vPlayedby').classList.toggle('hide',!pl);
   $('#vEdition').textContent=($('#edition').value||'').toUpperCase();
-  syncWincons();renderAbilities();
+  syncWincons();renderAbilities();fitNames();
 }
 ['char','player','role','goldWin','silverWin','edition'].forEach(id=>$('#'+id).addEventListener('input',sync));
 $('#position').addEventListener('change',sync);
@@ -616,7 +639,7 @@ function mdigit(grid,ox,U,g,pal,seed){let s='';for(let r=0;r<7;r++)for(let c=0;c
 function buildModule26(al){const U=100,g=14,dw=4*U+3*g,DG=64,W=2*dw+DG,H=7*U+6*g,pal=M_PAL[al]||M_PAL.town;
   return `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg">`+mdigit(M_TWO,0,U,g,pal,1)+mdigit(M_SIX,dw+DG,U,g,pal,2)+`</svg>`;}
 let curStyle='t-classic',curAlign='town';
-function applyClass(){card.className=curStyle+' '+curAlign;$('#vModule').innerHTML=buildModule26(curAlign);}
+function applyClass(){card.className=curStyle+' '+curAlign;$('#vModule').innerHTML=buildModule26(curAlign);fitNames();}
 function setAlign(al){curAlign=al;applyClass();$('#vBg').src=BG[al];$('#alignSeg').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.al===al));$('#vAl').textContent=AL[al];}
 function setStyle(st){curStyle=st;applyClass();$('#styleSeg').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.st===st));}
 $('#alignSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(b)setAlign(b.dataset.al);});
@@ -666,6 +689,7 @@ setStyle('t-classic');setAlign('town');
 applyPlayer();
 sync();
 fit();
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitNames);
 
 const h=location.hash.replace('#','');
 h.split(/[\/,]/).forEach(tok=>{
