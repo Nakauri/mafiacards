@@ -221,11 +221,14 @@ input[type=range]{width:100%;accent-color:var(--lime);margin:2px 0}
 #card.t-classic .topbar,#card.t-classic .footer{background:#0a0c0f}
 /* VIBRANT = Lionel_MESSI(1): solid alignment field + subtle tonal shapes, transparent chrome,
    ONE white card holding the role block + ability rows, navy type + orange accents. */
-#card.t-vibrant{background:
-  radial-gradient(1040px 780px at 116% -10%,color-mix(in srgb,var(--light) 34%,transparent),transparent 52%),
-  radial-gradient(560px 560px at 100% 106%,color-mix(in srgb,var(--light) 26%,transparent),transparent 58%),
-  radial-gradient(700px 560px at -10% 104%,color-mix(in srgb,var(--deep) 26%,transparent),transparent 60%),
-  linear-gradient(150deg,color-mix(in srgb,var(--light) 32%,var(--main)) 0%,var(--main) 48%,color-mix(in srgb,var(--deep) 36%,var(--main)) 100%)}
+#card.t-vibrant{background:linear-gradient(150deg,color-mix(in srgb,var(--light) 16%,var(--main)) 0%,var(--main) 54%,color-mix(in srgb,var(--deep) 20%,var(--main)) 100%)}
+/* subtle monochromatic background shapes (Lionel_MESSI(1)): rounded form top-right, circle bottom-right, soft shape bottom-left */
+.vshapes{display:none;position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.vshapes span{position:absolute;display:block}
+#card.t-vibrant .vshapes{display:block}
+.vs1{top:-150px;right:-130px;width:670px;height:610px;border-radius:0 0 0 300px;background:color-mix(in srgb,var(--light) 20%,var(--main))}
+.vs2{bottom:-240px;right:-150px;width:560px;height:560px;border-radius:50%;background:color-mix(in srgb,var(--light) 30%,var(--main))}
+.vs3{bottom:-250px;left:-170px;width:520px;height:470px;border-radius:50%;background:color-mix(in srgb,var(--deep) 12%,var(--main))}
 #card.t-vibrant .artbg,#card.t-vibrant .module26{display:none}
 #card.t-vibrant .topbar,#card.t-vibrant .footer{background:transparent}
 #card.t-vibrant .wm b{color:#fff}
@@ -375,6 +378,7 @@ input[type=range]{width:100%;accent-color:var(--lime);margin:2px 0}
     <div id="card" class="t-vibrant town">
       <img class="artbg" id="vBg" alt=""><div class="scrim"></div>
       <div class="module26" id="vModule"></div>
+      <div class="vshapes" aria-hidden="true"><span class="vs1"></span><span class="vs2"></span><span class="vs3"></span></div>
 
       <header class="topbar">
         <div class="emblemBox"><img id="vEmblem" alt=""></div>
