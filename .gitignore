@@ -1,0 +1,7 @@
+node_modules/
+reference/
+_*.html
+agent*.png
+*.log
+.vercel/
+.DS_Store
