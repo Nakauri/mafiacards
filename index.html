@@ -310,14 +310,19 @@ input[type=range]{width:100%;accent-color:var(--lime);margin:2px 0}
 #card.t-classic .topbar,#card.t-classic .footer{background:#0a0c0f}
 /* VIBRANT = Lionel_MESSI(1): solid alignment field + subtle tonal shapes, transparent chrome,
    ONE white card holding the role block + ability rows, navy type + orange accents. */
-#card.t-vibrant{background:linear-gradient(150deg,color-mix(in srgb,var(--light) 16%,var(--main)) 0%,var(--main) 54%,color-mix(in srgb,var(--deep) 20%,var(--main)) 100%)}
-/* subtle monochromatic background shapes (Lionel_MESSI(1)): rounded form top-right, circle bottom-right, soft shape bottom-left */
+#card.t-vibrant{background:
+  radial-gradient(940px 620px at 80% -10%,color-mix(in srgb,var(--light) 26%,transparent),transparent 62%),
+  linear-gradient(150deg,color-mix(in srgb,var(--light) 26%,var(--main)) 0%,var(--main) 50%,color-mix(in srgb,var(--deep) 34%,var(--main)) 100%)}
+/* monochromatic background shapes (Lionel_MESSI(1)) with a soft sheen for depth */
 .vshapes{display:none;position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
 .vshapes span{position:absolute;display:block}
 #card.t-vibrant .vshapes{display:block}
-.vs1{top:-150px;right:-130px;width:670px;height:610px;border-radius:0 0 0 300px;background:color-mix(in srgb,var(--light) 20%,var(--main))}
-.vs2{bottom:-240px;right:-150px;width:560px;height:560px;border-radius:50%;background:color-mix(in srgb,var(--light) 30%,var(--main))}
-.vs3{bottom:-250px;left:-170px;width:520px;height:470px;border-radius:50%;background:color-mix(in srgb,var(--deep) 12%,var(--main))}
+.vs1{top:-150px;right:-130px;width:680px;height:620px;border-radius:0 0 0 310px;
+  background:linear-gradient(205deg,color-mix(in srgb,var(--light) 34%,var(--main)),color-mix(in srgb,var(--light) 12%,var(--main)) 72%)}
+.vs2{bottom:-240px;right:-150px;width:570px;height:570px;border-radius:50%;
+  background:radial-gradient(circle at 36% 32%,color-mix(in srgb,var(--light) 44%,var(--main)),color-mix(in srgb,var(--light) 18%,var(--main)) 70%)}
+.vs3{bottom:-250px;left:-170px;width:520px;height:470px;border-radius:50%;
+  background:radial-gradient(circle at 60% 40%,color-mix(in srgb,var(--deep) 8%,var(--main)),color-mix(in srgb,var(--deep) 22%,var(--main)))}
 #card.t-vibrant .artbg,#card.t-vibrant .module26{display:none}
 #card.t-vibrant .topbar,#card.t-vibrant .footer{background:transparent}
 #card.t-vibrant .wm b{color:#fff}
@@ -384,9 +389,9 @@ input[type=range]{width:100%;accent-color:var(--lime);margin:2px 0}
       <summary>Card style <svg class="car" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary>
       <div class="gb">
         <div class="seg" id="styleSeg">
-          <button data-st="t-vibrant" class="on">Vibrant</button>
+          <button data-st="t-classic" class="on">Classic</button>
+          <button data-st="t-vibrant">Vibrant</button>
           <button data-st="t-dark">Dark</button>
-          <button data-st="t-classic">Classic</button>
           <button data-st="t-light">Light</button>
         </div>
       </div>
@@ -464,7 +469,7 @@ input[type=range]{width:100%;accent-color:var(--lime);margin:2px 0}
 
 <div class="stageWrap">
   <div class="stage" id="stage">
-    <div id="card" class="t-vibrant town">
+    <div id="card" class="t-classic town">
       <img class="artbg" id="vBg" alt=""><div class="scrim"></div>
       <div class="module26" id="vModule"></div>
       <div class="vshapes" aria-hidden="true"><span class="vs1"></span><span class="vs2"></span><span class="vs3"></span></div>
@@ -699,7 +704,7 @@ function mdigit(grid,ox,U,g,pal,seed){let s='';for(let r=0;r<7;r++)for(let c=0;c
   s+=mcell(ox+c*(U+g),r*(U+g),U,pal[mhash(id)%pal.length],(mhash(id*7+3)%100)<44,mhash(id*13+5)%4);}return s;}
 function buildModule26(al){const U=100,g=14,dw=4*U+3*g,DG=64,W=2*dw+DG,H=7*U+6*g,pal=M_PAL[al]||M_PAL.town;
   return `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg">`+mdigit(M_TWO,0,U,g,pal,1)+mdigit(M_SIX,dw+DG,U,g,pal,2)+`</svg>`;}
-let curStyle='t-vibrant',curAlign='town';
+let curStyle='t-classic',curAlign='town';
 function applyClass(){card.className=curStyle+' '+curAlign;$('#vModule').innerHTML=buildModule26(curAlign);}
 function setAlign(al){curAlign=al;applyClass();$('#vBg').src=BG[al];$('#alignSeg').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.al===al));$('#vAl').textContent=AL[al];}
 function setStyle(st){curStyle=st;applyClass();$('#styleSeg').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.st===st));}
@@ -746,7 +751,7 @@ countrySel.value='argentina';
 fillPlayers('argentina',0);
 const mi=DATA.argentina.players.findIndex(p=>/messi/i.test(p.n));
 playerSel.value=mi>=0?mi:0;
-setStyle('t-vibrant');setAlign('town');
+setStyle('t-classic');setAlign('town');
 applyPlayer();
 sync();
 fit();
