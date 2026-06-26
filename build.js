@@ -13,6 +13,8 @@ const png=f=>'data:image/png;base64,'+b64(f);
 const faces=[
   ["FWC2026",400,pick('FWC2026-NormalRegular.77c3c249.ttf','FWC2026-NormalRegular.ttf')],
   ["FWC2026",900,pick('FWC2026-NormalBlack.2bd896c8.ttf','FWC2026-NormalBlack.ttf')],
+  ["FWC2026 Cond",500,pick('FWC2026-UltraCondensedMedium.4da29b9d.ttf','FWC2026-UltraCondensedMedium.ttf')],
+  ["FWC2026 Cond",700,pick('FWC2026-UltraCondensedBold.0e7149b5.ttf','FWC2026-UltraCondensedBold.ttf')],
   ["FIFA Sans",400,pick('FIFA Sans-normal-400-100.ttf')],
   ["FIFA Sans",500,pick('FIFA Sans Medium-normal-500-100.ttf')]
 ];

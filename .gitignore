@@ -5,3 +5,9 @@ agent*.png
 *.log
 .vercel/
 .DS_Store
+# reference/working images dropped in root
+/*.jpg
+/*.jpeg
+Lionel_*.png
+look.png
+out_*.png
